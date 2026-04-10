@@ -20,8 +20,8 @@
                 "install -D piliplus /app/bin/piliplus",
                 "cp -r lib /app/",
                 "cp -r data /app/",
-                "install -Dm644 assets/linux/piliplus.desktop /app/share/applications/com.example.piliplus.desktop",
-                "install -Dm644 assets/images/logo/logo.png /app/share/icons/hicolor/512x512/apps/com.example.piliplus.png"
+                "install -Dm644 assets/linux/com.example.piliplus.desktop /app/share/applications/com.example.piliplus.desktop",
+                "install -Dm644 assets/images/logo/logo.png /app/share/icons/hicolor/512x512/apps/piliplus.png"
             ],
             "sources": [
                 {
