@@ -19,11 +19,11 @@ jobs:
               uses: actions/cache@v4
               with:
                   path:
-                    - /var/cache/apt/archives
-                    - /var/lib/apt/lists
+                      - /var/cache/apt/archives
+                      - /var/lib/apt/lists
                   key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/flatpak.yml') }}
                   restore-keys: |
-                    ${{ runner.os }}-apt-
+                      ${{ runner.os }}-apt-
 
             # 1. 设置 Flutter 环境
             - name: Setup Flutter
