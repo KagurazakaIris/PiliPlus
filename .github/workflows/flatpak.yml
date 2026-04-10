@@ -26,7 +26,14 @@ jobs:
             - name: Install dependencies
               run: |
                   sudo apt-get update
-                  sudo apt-get install -y libgtk-3-dev libblkid-dev liblzma-dev libgcrypt20-dev
+                  sudo apt-get install -y \
+                    libgtk-3-dev \
+                    libblkid-dev \
+                    liblzma-dev \
+                    libgcrypt20-dev \
+                    libasound2-dev \
+                    libmpv-dev \
+                    pkg-config
 
             # 3. 编译二进制文件
             - name: Flutter build linux
