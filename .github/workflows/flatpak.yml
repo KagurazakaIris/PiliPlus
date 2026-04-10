@@ -1,0 +1,60 @@
+name: Build and Release PiliPlus
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            # 1. 设置 Flutter 环境
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: "3.29.0" # 对应你之前的版本
+                  channel: "stable"
+                  cache: true
+
+            # 2. 安装 Linux 编译依赖
+            - name: Install dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libgtk-3-dev libblkid-dev liblzma-dev libgcrypt20-dev
+
+            # 3. 编译二进制文件
+            - name: Flutter build linux
+              run: |
+                  flutter pub get
+                  flutter build linux --release
+
+            # 4. 设置 Flatpak 环境 (用于打包)
+            - name: Install Flatpak-builder
+              run: |
+                  sudo apt-get install -y flatpak-builder
+
+            # 5. 打包并导出 .flatpak 文件
+            - name: Build Flatpak Bundle
+              run: |
+                  # 安装必要的 runtime 和 sdk
+                  flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+                  flatpak install --user -y flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08
+
+                  # 构建
+                  flatpak-builder --force-clean --user --repo=repo build-dir com.example.piliplus.json
+
+                  # 导出为单文件 bundle
+                  flatpak build-bundle repo piliplus.flatpak com.example.piliplus
+
+            # 6. 上传产物到 Workflow Assets
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: PiliPlus-Linux-Flatpak
+                  path: piliplus.flatpak
