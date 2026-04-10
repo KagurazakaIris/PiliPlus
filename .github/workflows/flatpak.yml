@@ -18,9 +18,9 @@ jobs:
             - name: Cache apt packages
               uses: actions/cache@v4
               with:
-                  path:
-                      - /var/cache/apt/archives
-                      - /var/lib/apt/lists
+                  path: |
+                      /var/cache/apt/archives
+                      /var/lib/apt/lists
                   key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/flatpak.yml') }}
                   restore-keys: |
                       ${{ runner.os }}-apt-
