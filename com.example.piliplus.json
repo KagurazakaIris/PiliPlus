@@ -1,25 +1,39 @@
-"modules": [
-    {
-        "name": "piliplus",
-        "buildsystem": "simple",
-        "build-commands": [
-            // 注意：这里直接安装 CI 已经 build 出来的产物
-            "install -D piliplus /app/bin/piliplus",
-            "cp -r lib /app/",
-            "cp -r data /app/",
-            "install -Dm644 assets/linux/piliplus.desktop /app/share/applications/com.example.piliplus.desktop",
-            "install -Dm644 assets/images/logo/logo.png /app/share/icons/hicolor/512x512/apps/com.example.piliplus.png"
-        ],
-        "sources": [
-            {
-                "type": "dir",
-                "path": "build/linux/x64/release/bundle"
-            },
-            {
-                "type": "dir",
-                "path": "assets",
-                "dest": "assets"
-            }
-        ]
-    }
-]
+{
+    "app-id": "com.example.piliplus",
+    "runtime": "org.freedesktop.Platform",
+    "runtime-version": "24.08",
+    "sdk": "org.freedesktop.Sdk",
+    "command": "piliplus",
+    "finish-args": [
+        "--share=network",
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--filesystem=home:ro"
+    ],
+    "modules": [
+        {
+            "name": "piliplus",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install -D piliplus /app/bin/piliplus",
+                "cp -r lib /app/",
+                "cp -r data /app/",
+                "install -Dm644 assets/linux/piliplus.desktop /app/share/applications/com.example.piliplus.desktop",
+                "install -Dm644 assets/images/logo/logo.png /app/share/icons/hicolor/512x512/apps/com.example.piliplus.png"
+            ],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "build/linux/x64/release/bundle"
+                },
+                {
+                    "type": "dir",
+                    "path": "assets",
+                    "dest": "assets"
+                }
+            ]
+        }
+    ]
+}
