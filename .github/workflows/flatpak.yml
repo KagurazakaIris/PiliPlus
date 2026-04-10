@@ -14,6 +14,17 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
+            # 0. 缓存 apt 下载包和索引
+            - name: Cache apt packages
+              uses: actions/cache@v4
+              with:
+                  path:
+                    - /var/cache/apt/archives
+                    - /var/lib/apt/lists
+                  key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/flatpak.yml') }}
+                  restore-keys: |
+                    ${{ runner.os }}-apt-
+
             # 1. 设置 Flutter 环境
             - name: Setup Flutter
               uses: subosito/flutter-action@v2
